@@ -1,17 +1,27 @@
-class UsernameValidator:
-    def __init__(self, username):
-        self.username = username
+import java.util.Scanner;
 
-    def clean_username(self):
-        cleaned = self.username.strip()
-        cleaned = cleaned.lower()
-        return cleaned
+class UsernameValidator {
+    String username;
 
-    def display_username(self):
-        cleaned_username = self.clean_username()
-        print("Cleaned Username:", cleaned_username)
+    UsernameValidator(String username) {
+        this.username = username;
+    }
 
+    String cleanUsername() {
+        String cleaned = username.trim();
+        cleaned = cleaned.toLowerCase();
+        return cleaned;
+    }
 
-user_input = input("Enter your username: ")
-validator = UsernameValidator(user_input)
-validator.display_username()
+    void displayUsername() {
+        System.out.println("Cleaned Username: " + cleanUsername());
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter your username: ");
+        String input = sc.nextLine();
+        UsernameValidator obj = new UsernameValidator(input);
+        obj.displayUsername();
+    }
+}
