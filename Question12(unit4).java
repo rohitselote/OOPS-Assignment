@@ -11,7 +11,7 @@ class DivisionCalculator {
             System.out.print("Enter second number: ");
             int num2 = sc.nextInt();
 
-            int result = num1 / num2; // may throw ArithmeticException
+            int result = num1 / num2; 
 
             System.out.println("Result: " + result);
 
