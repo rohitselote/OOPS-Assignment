@@ -1,0 +1,69 @@
+class Restaurant {
+    private boolean foodReady = false;
+
+    public synchronized void prepareFood() {
+        try {
+            while (foodReady) {
+                wait();
+            }
+            System.out.println("Chef prepared food");
+            foodReady = true;
+            notify();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public synchronized void serveFood() {
+        try {
+            while (!foodReady) {
+                wait();
+            }
+            System.out.println("Waiter served food");
+            foodReady = false;
+            notify();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+class Chef extends Thread {
+    Restaurant restaurant;
+
+    Chef(Restaurant restaurant) {
+        this.restaurant = restaurant;
+    }
+
+    public void run() {
+        for (int i = 0; i < 5; i++) {
+            restaurant.prepareFood();
+        }
+    }
+}
+
+class Waiter extends Thread {
+    Restaurant restaurant;
+
+    Waiter(Restaurant restaurant) {
+        this.restaurant = restaurant;
+    }
+
+    public void run() {
+        for (int i = 0; i < 5; i++) {
+            restaurant.serveFood();
+        }
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Restaurant restaurant = new Restaurant();
+
+        Chef chef = new Chef(restaurant);
+        Waiter waiter = new Waiter(restaurant);
+
+        chef.start();
+        waiter.start();
+    }
+}
